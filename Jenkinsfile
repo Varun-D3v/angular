@@ -1,5 +1,4 @@
 pipeline {
-    agent {
         kubernetes {
             cloud 'kubernetes1'
             yaml """

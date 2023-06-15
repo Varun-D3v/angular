@@ -1,5 +1,17 @@
 pipeline {
-    agent any
+    agent {
+        kubernetes {
+            cloud 'kubernetes1'
+            yaml """
+                apiVersion: v1
+                kind: Pod
+                spec:
+                  containers:
+                  - name: jnlp
+                    image: jenkins/inbound-agent:3107.v665000b_51092-15
+                    tty: true
+            """
+        }
 
     tools {
         nodejs "node"
@@ -51,4 +63,5 @@ pipeline {
             }
         }
     }
+}
 }

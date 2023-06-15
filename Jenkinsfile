@@ -1,7 +1,7 @@
 pipeline {
     agent {
         kubernetes {
-            cloud 'kubernetes1'
+            cloud 'kubernetes'
             yaml """
                 apiVersion: v1
                 kind: Pod
@@ -9,6 +9,13 @@ pipeline {
                   containers:
                   - name: jnlp
                     image: jenkins/inbound-agent:3107.v665000b_51092-15
+                    resources:
+                      limits:
+                        cpu: '1'
+                        memory: '2Gi'
+                      requests:
+                        cpu: '900m'
+                        memory: '1Gi'
                     tty: true
             """
         }

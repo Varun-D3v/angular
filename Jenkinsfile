@@ -7,7 +7,7 @@ pipeline {
             kind: Pod
             metadata:
               labels:
-                jenkins: pipeline
+                jenkins: jenkins-jenkins-agent
             spec:
               containers:
                 - name: maven

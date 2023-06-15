@@ -12,6 +12,7 @@ pipeline {
                     tty: true
             """
         }
+    }
 
     tools {
         nodejs "node"

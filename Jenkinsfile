@@ -1,6 +1,28 @@
 pipeline {
-    agent any
-
+    agent {
+        kubernetes {
+            defaultContainer 'jnlp'
+            yaml """
+            apiVersion: v1
+            kind: Pod
+            metadata:
+              labels:
+                jenkins: pipeline
+            spec:
+              containers:
+                - name: maven
+                  image: maven:latest
+                  resources:
+                    limits:
+                      cpu: "2"
+                      memory: "4Gi"
+                    requests:
+                      cpu: "1"
+                      memory: "2Gi"
+            """
+        }
+    }
+  
     tools {
         nodejs "node"
         maven "maven"
@@ -14,11 +36,6 @@ pipeline {
             }
         }
        
-//         stage('Install Dependencies') {
-//             steps {
-//                 sh 'npm install'
-//             }
-//         }
         stage('Install SBOM tool') {
             steps {
                 sh 'npm install -g @cyclonedx/cdxgen'

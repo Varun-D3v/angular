@@ -1,33 +1,11 @@
 pipeline {
-    agent {
-        kubernetes {
-            defaultContainer 'jnlp'
-            yaml """
-            apiVersion: v1
-            kind: Pod
-            metadata:
-              labels:
-                jenkins: jenkins-jenkins-agent
-            spec:
-              containers:
-                - name: maven
-                  image: maven:latest
-                  resources:
-                    limits:
-                      cpu: "2"
-                      memory: "4Gi"
-                    requests:
-                      cpu: "1"
-                      memory: "2Gi"
-            """
-        }
-    }
-  
+    agent any
+
     tools {
         nodejs "node"
         maven "maven"
     }
-  
+
 
     stages {
         stage('Checkout') {
@@ -35,13 +13,18 @@ pipeline {
                 checkout scm
             }
         }
-       
+
+//         stage('Install Dependencies') {
+//             steps {
+//                 sh 'npm install'
+//             }
+//         }
         stage('Install SBOM tool') {
             steps {
                 sh 'npm install -g @cyclonedx/cdxgen'
             }
         }
-        
+
         stage('Generate SBOM') {
             steps {
                 sh 'export FETCH_LICENSE=true && cdxgen -r -o bom.json'
@@ -51,7 +34,7 @@ pipeline {
                 }
             }
         }
-              
+
         stage('Upload SBOM to Dependency-Track') {
             steps {
                 withCredentials([string(credentialsId: 'apikey', variable: 'X_API_KEY')]) {

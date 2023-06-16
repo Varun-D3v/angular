@@ -34,11 +34,11 @@ pipeline {
             }
         }
 
-//         stage('Install Dependencies') {
-//             steps {
-//                 sh 'npm install'
-//             }
-//         }
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
         stage('Install SBOM tool') {
             steps {
                 sh 'npm install -g @cyclonedx/cdxgen'
@@ -64,7 +64,7 @@ pipeline {
                     -H "X-Api-Key:${X_API_KEY}" \
                     -F "autoCreate=true" \
                     -F "projectName=Jenkinsreact" \
-                    -F "projectVersion=1.23" \
+                    -F "projectVersion=1.22" \
                     -F "bom=@bom.json"
                     """
                 }

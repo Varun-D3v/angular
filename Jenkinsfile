@@ -63,7 +63,7 @@ pipeline {
                     -H "Content-Type:multipart/form-data" \
                     -H "X-Api-Key:${X_API_KEY}" \
                     -F "autoCreate=true" \
-                    -F "projectName=Jenkinsreact" \
+                    -F "projectName=Jenkinsangular" \
                     -F "projectVersion=1.22" \
                     -F "bom=@bom.json"
                     """
